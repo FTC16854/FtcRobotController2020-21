@@ -293,6 +293,8 @@ public class ParentOpMode extends LinearOpMode {
 
     public void holonomicDriveAuto(double robotSpeed, double movementAngle, double rotationSpeed){
 
+        movementAngle = movementAngle + Math.toRadians(-90);
+
         double leftFrontSpeed = robotSpeed*Math.cos(movementAngle + (Math.PI/4)) + rotationSpeed;
         double rightFrontSpeed = robotSpeed*Math.sin(movementAngle + (Math.PI/4)) - rotationSpeed;
         double leftBackSpeed = robotSpeed*Math.sin(movementAngle + (Math.PI/4)) + rotationSpeed;
@@ -333,7 +335,7 @@ public class ParentOpMode extends LinearOpMode {
     public void claw() {
         double in = .45;
         double out = 0;
-        boolean clawClose = toggleClaw.toggleButton(clawButton());
+        boolean clawClose = toggleClaw.toggleButtondebounced(clawButton());
 
         if (clawClose) {
             wobbleClaw.setPosition(in);
@@ -385,7 +387,7 @@ public class ParentOpMode extends LinearOpMode {
     }
 
     public void shooter(){
-        double shootPosition = .5;  //flipper position
+        double shootPosition = .1;  //flipper position
         double neutralPosition = 0;
         double shooterSpeed = 1;
 
@@ -415,9 +417,15 @@ public class ParentOpMode extends LinearOpMode {
     }
 
     public void shootAuto(){
-        double shootPosition = .5;
+        shooterStart(1);
+        sleep(2500);
+        double shootPosition = .1;
         double neutralPosition = 0;
-        shooterFlipper.setPosition(shootPosition); //flip ring into shooter
+        shooterFlipper.setPosition(shootPosition);
+        sleep(500)  ;
+        shooterFlipper.setPosition(neutralPosition);
+
+        //flip ring into shooter
         //toggle shooter flipper back to neutral
         //make neutral and shooter positions global variables? incorporate shooterStart and shooterStop into shooter()?
     }
@@ -459,7 +467,7 @@ public class ParentOpMode extends LinearOpMode {
     //  finish auto-shooter functions
     //  correct issues found during robot testing
     //      -wobble lift may be binding or potentially trying to pull too much current?
-    //      -wobble claw - works, but toggles need debouncing
+    //
     //
 
 
