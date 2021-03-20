@@ -7,7 +7,7 @@ public class Toggle {
 
     private double lasttime = 0;
 
-    private double delaytime = 1000;
+    private double delaytime = 500;
 
     public boolean toggleButton(boolean inputButton) {
         if (inputButton == true){
@@ -33,7 +33,7 @@ public class Toggle {
             }
             lasttime = currenttime;
         }
-        return outputState;
+        return outputstatedebounced;
     }
 //Matt's Code Below:
 /*    private boolean outputStateDebounced = false;

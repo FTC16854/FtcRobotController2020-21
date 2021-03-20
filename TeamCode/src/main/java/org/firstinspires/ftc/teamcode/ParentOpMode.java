@@ -41,7 +41,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 import com.qualcomm.robotcore.hardware.configuration.annotations.ServoType;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -81,8 +83,9 @@ public class ParentOpMode extends LinearOpMode {
     private Servo shooterFlipper = null;
     //private Servo intakeLatch = null;     //Intake Latch is hopefully not needed. No more ports :(
     private Servo wobbleClaw = null;
-    private Servo wobbleLift = null;
+    private ServoImplEx wobbleLift = null; //was Servo. trying ServoImplEx for PWM range adjustment
     private CRServo conveyor  = null;
+
 
     ExpansionHubEx expansionHub;    //use for rev extensions
 
@@ -102,7 +105,7 @@ public class ParentOpMode extends LinearOpMode {
         shooterFlipper = hardwareMap.get(Servo.class,"shooterFlipper_servo");
         //intakeLatch = hardwareMap.get(Servo.class,"intakeLatch_servo");
         wobbleClaw = hardwareMap.get(Servo.class, "wobble_claw");
-        wobbleLift = hardwareMap.get(Servo.class, "wobble_lift");
+        wobbleLift = hardwareMap.get(ServoImplEx.class, "wobble_lift");
         conveyor = hardwareMap.get(CRServo.class, "conveyor_servo");
 
 
@@ -114,12 +117,14 @@ public class ParentOpMode extends LinearOpMode {
 
         shooterMotor.setDirection(DcMotorEx.Direction.FORWARD);
 
-        intakeServo.setDirection(CRServo.Direction.FORWARD);
+        intakeServo.setDirection(CRServo.Direction.REVERSE);
         shooterFlipper.setDirection(Servo.Direction.REVERSE);
         //intakeLatch.setDirection(Servo.Direction.FORWARD);
         wobbleClaw.setDirection(Servo.Direction.FORWARD);
         wobbleLift.setDirection(Servo.Direction.FORWARD);
         conveyor.setDirection(CRServo.Direction.FORWARD);
+
+        //wobbleLift.setPwmRange(PwmControl.PwmRange.); //figure out PWM range
 
 
         //Set brake or coast modes. Drive motors should match SPARK Mini switch
@@ -349,7 +354,7 @@ public class ParentOpMode extends LinearOpMode {
     public void lift() {
         double down = 0;
         double up = .90;
-        boolean liftDown = toggleLift.toggleButton(liftButton());
+        boolean liftDown = toggleLift.toggleButtondebounced(liftButton());
 
         if (liftDown) {
             wobbleLift.setPosition(down);
@@ -387,7 +392,7 @@ public class ParentOpMode extends LinearOpMode {
     }
 
     public void shooter(){
-        double shootPosition = .1;  //flipper position
+        double shootPosition = .3;  //flipper position
         double neutralPosition = 0;
         double shooterSpeed = 1;
 
@@ -419,7 +424,7 @@ public class ParentOpMode extends LinearOpMode {
     public void shootAuto(){
         shooterStart(1);
         sleep(2500);
-        double shootPosition = .1;
+        double shootPosition = .3;
         double neutralPosition = 0;
         shooterFlipper.setPosition(shootPosition);
         sleep(500)  ;

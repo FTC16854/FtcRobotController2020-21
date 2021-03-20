@@ -77,6 +77,7 @@ public class SimpleAutonomous extends ParentOpMode {
 
 
             telemetry.update();
+            break;
 
         }
     }
