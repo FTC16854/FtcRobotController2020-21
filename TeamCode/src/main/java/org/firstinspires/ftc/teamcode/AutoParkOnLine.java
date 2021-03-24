@@ -52,7 +52,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Simple Autonomous", group="Linear Opmode")
+@Autonomous(name="Park On Line", group="Linear Opmode")
 //@Disabled
 public class AutoParkOnLine extends ParentOpMode {
 
@@ -70,10 +70,10 @@ public class AutoParkOnLine extends ParentOpMode {
             holonomicDriveAuto(0.5,270,0);
             sleep(5000);
             StopDrive();
-            for(int i = 0; i < 3; i++){
+            /*for(int i = 0; i < 3; i++){
                 shootAuto();
             }
-            shooterStop();
+            shooterStop();*/
 
 
             telemetry.update();
