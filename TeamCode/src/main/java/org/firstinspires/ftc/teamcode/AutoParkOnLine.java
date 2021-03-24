@@ -54,7 +54,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Simple Autonomous", group="Linear Opmode")
 //@Disabled
-public class SimpleAutonomous extends ParentOpMode {
+public class AutoParkOnLine extends ParentOpMode {
 
     @Override
     public void runOpMode() {
@@ -67,7 +67,7 @@ public class SimpleAutonomous extends ParentOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            holonomicDriveAuto(0.5,0,0);
+            holonomicDriveAuto(0.5,270,0);
             sleep(5000);
             StopDrive();
             for(int i = 0; i < 3; i++){

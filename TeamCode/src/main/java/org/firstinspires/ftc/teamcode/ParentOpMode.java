@@ -124,8 +124,7 @@ public class ParentOpMode extends LinearOpMode {
         wobbleLift.setDirection(Servo.Direction.FORWARD);
         conveyor.setDirection(CRServo.Direction.FORWARD);
 
-        //wobbleLift.setPwmRange(PwmControl.PwmRange.); //figure out PWM range
-
+        wobbleLift.scaleRange(0.36,.88);
 
         //Set brake or coast modes. Drive motors should match SPARK Mini switch
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); //BRAKE or FLOAT (Coast)
@@ -298,7 +297,7 @@ public class ParentOpMode extends LinearOpMode {
 
     public void holonomicDriveAuto(double robotSpeed, double movementAngle, double rotationSpeed){
 
-        movementAngle = movementAngle + Math.toRadians(-90);
+        movementAngle = Math.toRadians (movementAngle - (90));
 
         double leftFrontSpeed = robotSpeed*Math.cos(movementAngle + (Math.PI/4)) + rotationSpeed;
         double rightFrontSpeed = robotSpeed*Math.sin(movementAngle + (Math.PI/4)) - rotationSpeed;
@@ -367,8 +366,8 @@ public class ParentOpMode extends LinearOpMode {
 
 
     public void intake(){
-        double intakeServoSpeed = .5;
-        double conveyorServoSpeed = .5;
+        double intakeServoSpeed = 1;
+        double conveyorServoSpeed = 1;
 
         if(intakeButton()){
             intakeServo.setPower(intakeServoSpeed);
@@ -394,7 +393,7 @@ public class ParentOpMode extends LinearOpMode {
     public void shooter(){
         double shootPosition = .3;  //flipper position
         double neutralPosition = 0;
-        double shooterSpeed = 1;
+        double shooterSpeed = .8;
 
         if(ShooterStartButton()){
             shooterMotor.setPower(shooterSpeed);
@@ -422,7 +421,7 @@ public class ParentOpMode extends LinearOpMode {
     }
 
     public void shootAuto(){
-        shooterStart(1);
+        shooterStart(.75);
         sleep(2500);
         double shootPosition = .3;
         double neutralPosition = 0;
