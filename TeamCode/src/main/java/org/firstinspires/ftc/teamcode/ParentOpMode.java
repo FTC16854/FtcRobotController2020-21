@@ -89,8 +89,12 @@ public class ParentOpMode extends LinearOpMode {
 
     ExpansionHubEx expansionHub;    //use for rev extensions
 
+    //Setup Toggles
     Toggle toggleClaw = new Toggle();
     Toggle toggleLift = new Toggle();
+
+    //Other Global Variables
+    //put global variables here...
 
     public void initialize(){
         // Initialize the hardware variables. Note that the strings used here as parameters
@@ -124,7 +128,8 @@ public class ParentOpMode extends LinearOpMode {
         wobbleLift.setDirection(Servo.Direction.FORWARD);
         conveyor.setDirection(CRServo.Direction.FORWARD);
 
-        wobbleLift.scaleRange(0.36,.88);
+        //Set range for special Servos
+        wobbleLift.scaleRange(0.36,.88); //Savox PWM range is between 0.8 and 2.2 ms. REV Hub puts out 0.5-2.5ms.
 
         //Set brake or coast modes. Drive motors should match SPARK Mini switch
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); //BRAKE or FLOAT (Coast)
@@ -272,11 +277,10 @@ public class ParentOpMode extends LinearOpMode {
         double movementAngle;
         double rotationSpeed;
 
-
         rotationSpeed = right_sticky_x()*.75;
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
       //  movementAngle = Math.atan2(left_sticky_y(), left_sticky_x());
-        movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) + Math.toRadians(-90);
+        movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) + Math.toRadians(-90); // with 90 degree offset
 
         double leftFrontSpeed = (robotSpeed * Math.cos(movementAngle + (Math.PI / 4))) + rotationSpeed;
         double rightFrontSpeed = (robotSpeed * Math.sin(movementAngle + (Math.PI / 4))) - rotationSpeed;
@@ -429,8 +433,6 @@ public class ParentOpMode extends LinearOpMode {
         sleep(500)  ;
         shooterFlipper.setPosition(neutralPosition);
 
-        //flip ring into shooter
-        //toggle shooter flipper back to neutral
         //make neutral and shooter positions global variables? incorporate shooterStart and shooterStop into shooter()?
     }
 
@@ -466,17 +468,21 @@ public class ParentOpMode extends LinearOpMode {
         }
     }
 
-    //TODO:
-    //  odometry/encoders
-    //  finish auto-shooter functions
-    //  correct issues found during robot testing
-    //      -wobble lift may be binding or potentially trying to pull too much current?
-    //
-    //
-
 
 
 }
 
+        //TODO
+        //  Odometry/encoders
+        //  Gyro
+        //      -for drive-straight, turning
+        //      -field-centric driving
+        //  Global Variables
+        //      -For shooter flipper positions
+        //  correct issues found during robot testing
+        //      -wobble lift range needs to be slightly expanded due to Matt's bad math
+        //      -add button to swap drive directions
+        //      -close wobble claw on initialization of auto
+        //
 
 

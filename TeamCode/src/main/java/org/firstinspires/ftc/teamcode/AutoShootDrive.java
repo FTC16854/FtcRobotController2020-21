@@ -32,19 +32,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
 @Autonomous(name="Auto Shoot Drive", group="Linear Opmode")
 //@Disabled
 public class AutoShootDrive extends ParentOpMode {
@@ -60,6 +47,7 @@ public class AutoShootDrive extends ParentOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
             //distances based on 1.3ft/sec at 0.5 robot drive speed
 
             holonomicDriveAuto(0.5,270,0);
@@ -70,6 +58,7 @@ public class AutoShootDrive extends ParentOpMode {
             sleep(769);             //.769 Seconds
             StopDrive();
 
+            //shoot three rings
             for(int i = 0; i < 3; i++){
                 shootAuto();
             }
