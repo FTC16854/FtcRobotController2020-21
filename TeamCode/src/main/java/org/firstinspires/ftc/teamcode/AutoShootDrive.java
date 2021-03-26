@@ -64,7 +64,6 @@ public class AutoShootDrive extends ParentOpMode {
             }
             shooterStop();
 
-
             telemetry.update();
             break;
 

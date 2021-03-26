@@ -131,7 +131,7 @@ public class ParentOpMode extends LinearOpMode {
         //Set range for special Servos
         wobbleLift.scaleRange(0.36,.88); //Savox PWM range is between 0.8 and 2.2 ms. REV Hub puts out 0.5-2.5ms.
 
-        //Set brake or coast modes. Drive motors should match SPARK Mini switch
+        //Set brake or coast modes. Drive motors should match switch on SPARK Mini attached to LF Drive Motor
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); //BRAKE or FLOAT (Coast)
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -245,19 +245,6 @@ public class ParentOpMode extends LinearOpMode {
         double leftPower;
         double rightPower;
 
-        // Choose to drive using either Tank Mode, or POV Mode
-        // Comment out the method that's not used.  The default below is POV.
-
-        // POV Mode uses left stick to go forward, and right stick to turn.
-        // - This uses basic math to combine motions and is easier to drive straight.
-              /*  double drive = -gamepad1.left_stick_y;
-                double turn  =  gamepad1.right_stick_x;
-                leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
-                rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-                */
-        // Tank Mode uses one stick to control each wheel.
-        // - This requires no math, but it is hard to drive forward slowly and keep straight.
-
         leftPower = left_sticky_y();
         rightPower = right_sticky_y();
 
@@ -266,6 +253,7 @@ public class ParentOpMode extends LinearOpMode {
         rightBack.setPower(rightPower);
         leftFront.setPower(leftPower);
         leftBack.setPower(leftPower);
+
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
 
         // Show the elapsed game time.
@@ -279,7 +267,6 @@ public class ParentOpMode extends LinearOpMode {
 
         rotationSpeed = right_sticky_x()*.75;
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
-      //  movementAngle = Math.atan2(left_sticky_y(), left_sticky_x());
         movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) + Math.toRadians(-90); // with 90 degree offset
 
         double leftFrontSpeed = (robotSpeed * Math.cos(movementAngle + (Math.PI / 4))) + rotationSpeed;
@@ -339,7 +326,6 @@ public class ParentOpMode extends LinearOpMode {
 
     //More Methods (Functions)
 
-    //Servo position is based on the assumption that servos have 200 degree range
     public void claw() {
         double in = .45;
         double out = 0;
@@ -356,7 +342,7 @@ public class ParentOpMode extends LinearOpMode {
 
     public void lift() {
         double down = 0;
-        double up = .90;
+        double up = 1;
         boolean liftDown = toggleLift.toggleButtondebounced(liftButton());
 
         if (liftDown) {
