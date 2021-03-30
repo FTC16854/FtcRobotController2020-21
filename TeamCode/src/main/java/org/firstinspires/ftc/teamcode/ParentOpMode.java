@@ -29,10 +29,6 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.lynx.LynxController;
-import com.qualcomm.hardware.lynx.LynxDcMotorController;
-import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.lynx.LynxModuleIntf;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -40,17 +36,9 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
-import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
-import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
-import com.qualcomm.robotcore.hardware.configuration.annotations.ServoType;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.robotcore.internal.android.dex.util.ExceptionWithContext;
-import org.firstinspires.ftc.robotcore.internal.hardware.CachedLynxFirmwareVersions;
 
 import org.openftc.revextensions2.ExpansionHubEx;
 
@@ -329,7 +317,7 @@ public class ParentOpMode extends LinearOpMode {
     public void claw() {
         double in = .45;
         double out = 0;
-        boolean clawClose = toggleClaw.toggleButtondebounced(clawButton());
+        boolean clawClose = toggleClaw.toggleButtonDebounced(clawButton());
 
         if (clawClose) {
             wobbleClaw.setPosition(in);
@@ -343,7 +331,7 @@ public class ParentOpMode extends LinearOpMode {
     public void lift() {
         double down = 0;
         double up = 1;
-        boolean liftDown = toggleLift.toggleButtondebounced(liftButton());
+        boolean liftDown = toggleLift.toggleButtonDebounced(liftButton());
 
         if (liftDown) {
             wobbleLift.setPosition(down);
@@ -411,10 +399,12 @@ public class ParentOpMode extends LinearOpMode {
     }
 
     public void shootAuto(){
-        shooterStart(.75);
-        sleep(2500);
         double shootPosition = .3;
         double neutralPosition = 0;
+
+        shooterStart(.75);
+        sleep(2500);
+
         shooterFlipper.setPosition(shootPosition);
         sleep(500)  ;
         shooterFlipper.setPosition(neutralPosition);

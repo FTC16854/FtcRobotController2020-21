@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode;
 public class Toggle {
     private boolean outputState = false;
 
-    private boolean outputstatedebounced = false;
+    private boolean outputstateDebounced = false;
 
-    private double lasttime = 0;
+    private double lastTime = 0;
 
     private double delaytime = 500;
 
@@ -22,18 +22,18 @@ public class Toggle {
     }
 
 
-    public boolean toggleButtondebounced(boolean inputButton) {
-       double currenttime = System.currentTimeMillis();
-        if ((inputButton == true)&&(delaytime + lasttime < currenttime)){
-            if (outputstatedebounced == true){
-                outputstatedebounced = false;
+    public boolean toggleButtonDebounced(boolean inputButton) {
+       double currentTime = System.currentTimeMillis();
+        if ((inputButton == true)&&(delaytime + lastTime < currentTime)){
+            if (outputstateDebounced == true){
+                outputstateDebounced = false;
             }
             else{
-                outputstatedebounced = true;
+                outputstateDebounced = true;
             }
-            lasttime = currenttime;
+            lastTime = currentTime;
         }
-        return outputstatedebounced;
+        return outputstateDebounced;
     }
 
 //Matt's Code Below:
