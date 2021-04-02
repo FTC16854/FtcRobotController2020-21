@@ -67,6 +67,7 @@ public class AutoParkOnLine extends ParentOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+          autoclaw();
             holonomicDriveAuto(0.5,270,0);
             sleep(5000);
             StopDrive();

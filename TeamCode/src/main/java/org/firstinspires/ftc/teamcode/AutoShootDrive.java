@@ -48,8 +48,9 @@ public class AutoShootDrive extends ParentOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            //distances based on 1.3ft/sec at 0.5 robot drive speed
+            autoclaw(); //close claw on initialize
 
+            //distances based on 1.3ft/sec at 0.5 robot drive speed
             holonomicDriveAuto(0.5,270,0);
             sleep(7690);            //7.69 Seconds. Why would we round?
             StopDrive();
@@ -64,7 +65,12 @@ public class AutoShootDrive extends ParentOpMode {
             }
             shooterStop();
 
+            holonomicDriveAuto(0.5,90,0);
+            sleep(4000);
+
+            StopDrive();
             telemetry.update();
+
             break;
 
         }

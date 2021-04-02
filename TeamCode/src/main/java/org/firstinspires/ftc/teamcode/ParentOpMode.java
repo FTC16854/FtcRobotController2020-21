@@ -80,9 +80,12 @@ public class ParentOpMode extends LinearOpMode {
     //Setup Toggles
     Toggle toggleClaw = new Toggle();
     Toggle toggleLift = new Toggle();
+    Toggle toggleswitch = new Toggle();
 
     //Other Global Variables
     //put global variables here...
+    double close_claw = .45;
+    double open_claw = 0;
 
     public void initialize(){
         // Initialize the hardware variables. Note that the strings used here as parameters
@@ -117,7 +120,7 @@ public class ParentOpMode extends LinearOpMode {
         conveyor.setDirection(CRServo.Direction.FORWARD);
 
         //Set range for special Servos
-        wobbleLift.scaleRange(0.36,.88); //Savox PWM range is between 0.8 and 2.2 ms. REV Hub puts out 0.5-2.5ms.
+        wobbleLift.scaleRange(0.15,.85); //Savox PWM range is between 0.8 and 2.2 ms. REV Hub puts out 0.5-2.5ms.
 
         //Set brake or coast modes. Drive motors should match switch on SPARK Mini attached to LF Drive Motor
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); //BRAKE or FLOAT (Coast)
@@ -223,7 +226,14 @@ public class ParentOpMode extends LinearOpMode {
             return false;
         }
     }
-
+    public boolean switchsides(){
+        if(gamepad1.b ||gamepad2.b) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
 
     //Drive Methods
@@ -257,6 +267,9 @@ public class ParentOpMode extends LinearOpMode {
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
         movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) + Math.toRadians(-90); // with 90 degree offset
 
+        if(toggleswitch.toggleButtonDebounced(switchsides())){  //Flip driving direction
+            movementAngle = movementAngle + Math.toRadians(180);
+        }
         double leftFrontSpeed = (robotSpeed * Math.cos(movementAngle + (Math.PI / 4))) + rotationSpeed;
         double rightFrontSpeed = (robotSpeed * Math.sin(movementAngle + (Math.PI / 4))) - rotationSpeed;
         double leftBackSpeed = (robotSpeed*Math.sin(movementAngle + (Math.PI/4))) + rotationSpeed;
@@ -315,17 +328,20 @@ public class ParentOpMode extends LinearOpMode {
     //More Methods (Functions)
 
     public void claw() {
-        double in = .45;
-        double out = 0;
+
         boolean clawClose = toggleClaw.toggleButtonDebounced(clawButton());
 
         if (clawClose) {
-            wobbleClaw.setPosition(in);
+            wobbleClaw.setPosition(close_claw);
             telemetry.addData("Claw:", "Closed");
         } else {
-            wobbleClaw.setPosition(out);
+            wobbleClaw.setPosition(open_claw);
             telemetry.addData("Claw:", "Open");
         }
+    }
+
+    public void autoclaw(){
+        wobbleClaw.setPosition(close_claw);
     }
 
     public void lift() {
@@ -456,9 +472,6 @@ public class ParentOpMode extends LinearOpMode {
         //  Global Variables
         //      -For shooter flipper positions
         //  correct issues found during robot testing
-        //      -wobble lift range needs to be slightly expanded due to Matt's bad math
-        //      -add button to swap drive directions
-        //      -close wobble claw on initialization of auto
         //
 
 
