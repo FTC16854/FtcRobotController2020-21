@@ -474,4 +474,12 @@ public class ParentOpMode extends LinearOpMode {
         //  correct issues found during robot testing
         //
 
+        //Encoder Stuff
+        //Shooter motor - 3.7:1 - 1620 RPM
+        //      25.9 Counts per Motor Shaft Revolution
+        //      1003.6 Counts per Output Shaft Rotation
+
+        //Odometry Wheels
+        //      9192 Counts per revolution
+
 
