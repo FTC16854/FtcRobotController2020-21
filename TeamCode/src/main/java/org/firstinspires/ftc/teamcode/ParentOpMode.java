@@ -387,7 +387,8 @@ public class ParentOpMode extends LinearOpMode {
     public void shooter(){
         double shootPosition = .3;  //flipper position
         double neutralPosition = 0;
-        double shooterSpeed = .8;
+        //double shooterSpeed = .8;
+        double shooterSpeed = 1;
 
         if(ShooterStartButton()){
             shooterMotor.setPower(shooterSpeed);
