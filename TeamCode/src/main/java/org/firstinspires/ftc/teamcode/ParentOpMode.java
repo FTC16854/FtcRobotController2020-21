@@ -71,7 +71,7 @@ public class ParentOpMode extends LinearOpMode {
     private Servo shooterFlipper = null;
     //private Servo intakeLatch = null;     //Intake Latch is hopefully not needed. No more ports :(
     private Servo wobbleClaw = null;
-    private ServoImplEx wobbleLift = null; //was Servo. trying ServoImplEx for PWM range adjustment
+    private ServoImplEx wobbleLift = null; //ServoImplEx for PWM range adjustment
     private CRServo conveyor  = null;
 
 
@@ -80,7 +80,7 @@ public class ParentOpMode extends LinearOpMode {
     //Setup Toggles
     Toggle toggleClaw = new Toggle();
     Toggle toggleLift = new Toggle();
-    Toggle toggleswitch = new Toggle();
+    Toggle toggleDirection = new Toggle();
 
     //Other Global Variables
     //put global variables here...
@@ -103,6 +103,9 @@ public class ParentOpMode extends LinearOpMode {
         wobbleLift = hardwareMap.get(ServoImplEx.class, "wobble_lift");
         conveyor = hardwareMap.get(CRServo.class, "conveyor_servo");
 
+
+        //Set motor run mode
+        shooterMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Set Motor  and servo Directions
         leftFront.setDirection(DcMotor.Direction.FORWARD);
@@ -267,7 +270,7 @@ public class ParentOpMode extends LinearOpMode {
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
         movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) + Math.toRadians(-90); // with 90 degree offset
 
-        if(toggleswitch.toggleButtonDebounced(switchsides())){  //Flip driving direction
+        if(toggleDirection.toggleButtonDebounced(switchsides())){  //Flip driving direction
             movementAngle = movementAngle + Math.toRadians(180);
         }
         double leftFrontSpeed = (robotSpeed * Math.cos(movementAngle + (Math.PI / 4))) + rotationSpeed;
@@ -428,6 +431,31 @@ public class ParentOpMode extends LinearOpMode {
 
         //make neutral and shooter positions global variables? incorporate shooterStart and shooterStop into shooter()?
     }
+    public void shooterTest(){
+        double shooterspeed = 0;
+
+        if(gamepad1.a){
+            shooterspeed = 0.2;
+        }
+        else if(gamepad1.x){
+            shooterspeed = 0.4;
+        }
+        else if(gamepad1.y){
+            shooterspeed = 0.6;
+        }
+        else if(gamepad1.b){
+            shooterspeed = 0.8;
+        }
+        else if(gamepad1.right_bumper){
+            shooterspeed = 0.9;
+        }
+
+        telemetry.addData("shooterspeed",shooterspeed);
+
+        shooterMotor.setPower(shooterspeed);
+    }
+
+
 
 /*
     public void releaseLatch(){
@@ -468,7 +496,7 @@ public class ParentOpMode extends LinearOpMode {
         //TODO
         //  Odometry/encoders
         //  Gyro
-        //      -for drive-straight, turning
+        //      -for drive-straight, auto turning
         //      -field-centric driving
         //  Global Variables
         //      -For shooter flipper positions

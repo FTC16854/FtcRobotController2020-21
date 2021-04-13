@@ -4,6 +4,12 @@ Motor Ports                    Configuration Names
     2   LB Motor               lb_drive
     3   RB Motor               rb_drive
 
+Encoder Ports
+    0
+    1
+    2
+    3
+
 Servo Ports
     0   LF - SPARK Mini        lf_drive
     1   Intake Servo           intake_servo
