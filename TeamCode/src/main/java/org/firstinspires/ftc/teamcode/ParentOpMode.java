@@ -511,6 +511,11 @@ public class ParentOpMode extends LinearOpMode {
         return;
     }
 
+    public void testFunction3(){
+        //this is a test
+        return;
+    }
+
 }
 
         //TODO
