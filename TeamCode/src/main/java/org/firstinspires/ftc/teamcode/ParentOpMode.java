@@ -525,6 +525,9 @@ public class ParentOpMode extends LinearOpMode {
 
     public String cats = "Meow";
 
+    public boolean hasTail = true;
+    public boolean hasEars = true;
+
 }
 
         //TODO
