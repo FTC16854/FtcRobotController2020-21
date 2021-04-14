@@ -516,6 +516,8 @@ public class ParentOpMode extends LinearOpMode {
         return;
     }
 
+    public String cats = "Meow";
+
 }
 
         //TODO
