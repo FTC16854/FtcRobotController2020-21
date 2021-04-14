@@ -56,7 +56,7 @@ import org.openftc.revextensions2.ExpansionHubEx;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Drive", group="Linear Opmode")
+@TeleOp(name="Parent Opmode", group="Linear Opmode")
 @Disabled
 public class ParentOpMode extends LinearOpMode {
 
@@ -84,7 +84,7 @@ public class ParentOpMode extends LinearOpMode {
 
     //Other Global Variables
     //put global variables here...
-    double close_claw = .45;
+    double close_claw = .45;    //claw positions
     double open_claw = 0;
 
     public void initialize(){
@@ -150,7 +150,7 @@ public class ParentOpMode extends LinearOpMode {
             tankdrive();
             intake();
             shooter();
-            if(emergencyStop()){
+            if(emergencyStopped()){
                 break;
             }
 
@@ -229,7 +229,8 @@ public class ParentOpMode extends LinearOpMode {
             return false;
         }
     }
-    public boolean switchsides(){
+
+    public boolean switchSidesButton(){
         if(gamepad1.b ||gamepad2.b) {
             return true;
         }
@@ -270,7 +271,7 @@ public class ParentOpMode extends LinearOpMode {
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
         movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) + Math.toRadians(-90); // with 90 degree offset
 
-        if(toggleDirection.toggleButtonDebounced(switchsides())){  //Flip driving direction
+        if(toggleDirection.toggleButtonDebounced(switchSidesButton())){  //Flip driving direction
             movementAngle = movementAngle + Math.toRadians(180);
         }
         double leftFrontSpeed = (robotSpeed * Math.cos(movementAngle + (Math.PI / 4))) + rotationSpeed;
@@ -312,7 +313,7 @@ public class ParentOpMode extends LinearOpMode {
         rightBack.setPower(0);
     }
 
-    public boolean emergencyStop(){
+    public boolean emergencyStopped(){
         if (emergencyButtons()) {
             leftFront.setPower(0);
             rightFront.setPower(0);
@@ -387,6 +388,7 @@ public class ParentOpMode extends LinearOpMode {
         }
     }
 
+    //Shooter Functions
     public void shooter(){
         double shootPosition = .3;  //flipper position
         double neutralPosition = 0;
@@ -472,14 +474,6 @@ public class ParentOpMode extends LinearOpMode {
         shooterStart(shooterspeed);
     }
 
-    public void testFunction2(){
-        //this is a test, too
-        return;
-    }
-
-    public void testFunction4(){
-        //test test test test
-    }
 
 /*
     public void releaseLatch(){
@@ -513,20 +507,7 @@ public class ParentOpMode extends LinearOpMode {
         }
     }
 
-    public void testFunction1(){
-        //this is a test
-        return;
-    }
 
-    public void testFunction3(){
-        //this is a test
-        return;
-    }
-
-    public String cats = "Meow";
-
-    public boolean hasTail = true;
-    public boolean hasEars = true;
 
 }
 
@@ -537,7 +518,7 @@ public class ParentOpMode extends LinearOpMode {
         //      -field-centric driving
         //  Global Variables
         //      -For shooter flipper positions
-        //  correct issues found during robot testing
+        //
         //
 
         //Encoder Stuff
