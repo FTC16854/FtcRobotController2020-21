@@ -6,9 +6,9 @@ Motor Ports                    Configuration Names
 
 Encoder Ports
     0   Shooter
-    1   Odometry Left
-    2
-    3
+    1   Odometry Left Vertical
+    2   Odometry Right Vertical
+    3   Odometry Horiizontal
 
 Servo Ports
     0   LF - SPARK Mini        lf_drive

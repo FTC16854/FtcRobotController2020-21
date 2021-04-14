@@ -441,8 +441,22 @@ public class ParentOpMode extends LinearOpMode {
 
 
     //Encoder Functions
+    public double getLeftVerticalEncoder(){
+        return rightFront.getCurrentPosition();
+    }
 
+    public double getRightVerticalEncoder(){
+        return leftBack.getCurrentPosition();
+    }
 
+    public double getHorizontalEncoder(){
+        return rightBack.getCurrentPosition();
+    }
+
+    public void driveInches(double distanceInches ){
+        double OdometryWheelDiameter = 3;
+        double odometryCircumfrence = Math.PI * OdometryWheelDiameter;
+    }
 
 
     public void shooterTest(){
