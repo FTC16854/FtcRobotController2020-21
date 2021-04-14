@@ -472,7 +472,14 @@ public class ParentOpMode extends LinearOpMode {
         shooterStart(shooterspeed);
     }
 
+    public void testFunction2(){
+        //this is a test, too
+        return;
+    }
 
+    public void testFunction4(){
+        //test test test test
+    }
 
 /*
     public void releaseLatch(){
