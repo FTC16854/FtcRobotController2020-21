@@ -61,7 +61,7 @@ public class AutoShootDrive extends ParentOpMode {
 
             //shoot three rings
             for(int i = 0; i < 3; i++){
-                shootAuto();
+                shootAuto(0.75);
             }
             shooterStop();
 

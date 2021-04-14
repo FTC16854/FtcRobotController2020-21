@@ -5,8 +5,8 @@ Motor Ports                    Configuration Names
     3   RB Motor               rb_drive
 
 Encoder Ports
-    0
-    1
+    0   Shooter
+    1   Odometry Left
     2
     3
 

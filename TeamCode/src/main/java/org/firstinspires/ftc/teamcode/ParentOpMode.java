@@ -418,19 +418,31 @@ public class ParentOpMode extends LinearOpMode {
         shooterMotor.setPower(0);
     }
 
-    public void shootAuto(){
-        double shootPosition = .3;
-        double neutralPosition = 0;
+    public void shootAuto(double speed){
 
-        shooterStart(.75);
+        shooterStart(speed);
         sleep(2500);
-
-        shooterFlipper.setPosition(shootPosition);
-        sleep(500)  ;
-        shooterFlipper.setPosition(neutralPosition);
+        shooterFlip();
 
         //make neutral and shooter positions global variables? incorporate shooterStart and shooterStop into shooter()?
     }
+
+    public void shooterFlip(){
+        double shootPosition = .3;
+        double neutralPosition = 0;
+
+        shooterFlipper.setPosition(shootPosition);
+        sleep(500);
+        shooterFlipper.setPosition(neutralPosition);
+    }
+
+
+
+    //Encoder Functions
+
+
+
+
     public void shooterTest(){
         double shooterspeed = 0;
 
@@ -450,9 +462,14 @@ public class ParentOpMode extends LinearOpMode {
             shooterspeed = 0.9;
         }
 
-        telemetry.addData("shooterspeed",shooterspeed);
+        if((shooterspeed > 0) && shootButton()){
+            shooterFlip();
+            sleep(750);
+        }
 
-        shooterMotor.setPower(shooterspeed);
+        telemetry.addData("Shooter Speed",shooterspeed);
+
+        shooterStart(shooterspeed);
     }
 
 

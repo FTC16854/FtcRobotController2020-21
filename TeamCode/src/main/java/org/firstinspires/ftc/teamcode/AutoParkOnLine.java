@@ -71,11 +71,6 @@ public class AutoParkOnLine extends ParentOpMode {
             holonomicDriveAuto(0.5,270,0);
             sleep(5000);
             StopDrive();
-            /*for(int i = 0; i < 3; i++){
-                shootAuto();
-            }
-            shooterStop();*/
-
 
             telemetry.update();
             break;
