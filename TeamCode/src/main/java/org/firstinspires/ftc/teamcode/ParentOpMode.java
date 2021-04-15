@@ -40,6 +40,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import java.util.Locale;
+
 import org.openftc.revextensions2.ExpansionHubEx;
 
 
@@ -73,6 +81,12 @@ public class ParentOpMode extends LinearOpMode {
     private Servo wobbleClaw = null;
     private ServoImplEx wobbleLift = null; //ServoImplEx for PWM range adjustment
     private CRServo conveyor  = null;
+    // The IMU sensor object JWN Pulled from SensorBNO055IMU Opmode
+    BNO055IMU imu;
+    // State used for updating telemetry JWN Pulled from SensorBNO055IMU Opmode
+    Orientation angles = new Orientation();
+    double heading;
+    double headingOffset;
 
 
     ExpansionHubEx expansionHub;    //use for rev extensions
@@ -129,6 +143,31 @@ public class ParentOpMode extends LinearOpMode {
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        // JWN Referenced https://stemrobotics.cs.pdx.edu/node/7265 for IMU
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode                = BNO055IMU.SensorMode.IMU;  //this was the way we did it last year, my be slow and jerky
+       // parameters.mode                = BNO055IMU.SensorMode.GYRO; //This should theoretically be faster (no wasted hardware cycles to get pitch and roll) if it works. Haven’t tested yet.
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
+
+        // Retrieve and initialize the IMU. IMU to be attached to an I2C port
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+
+        telemetry.addData("Mode", "calibrating...");
+        telemetry.update();
+
+        // make sure the imu gyro is calibrated before continuing.
+        while (!isStopRequested() && !imu.isGyroCalibrated())
+        {
+            sleep(50);
+            idle();
+        }
+
+
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -290,6 +329,34 @@ public class ParentOpMode extends LinearOpMode {
         telemetry.addData("RB Speed:",rightBackSpeed);
     }
 
+    public void fieldCentricDrive(){
+        double robotSpeed;
+        double movementAngle;
+        double rotationSpeed;
+        double currentHeading;
+        double movementFieldAngle;
+
+        rotationSpeed = right_sticky_x()*.75;
+        robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
+        movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) + Math.toRadians(-90); // with 90 degree offset
+        currentHeading = Math.toRadians(heading);
+        movementFieldAngle = (movementAngle - currentHeading);
+
+        double leftFrontSpeed = (robotSpeed * Math.cos(movementFieldAngle + (Math.PI / 4))) + rotationSpeed;
+        double rightFrontSpeed = (robotSpeed * Math.sin(movementFieldAngle + (Math.PI / 4))) - rotationSpeed;
+        double leftBackSpeed = (robotSpeed*Math.sin(movementFieldAngle + (Math.PI/4))) + rotationSpeed;
+        double rightBackSpeed = (robotSpeed*Math.cos(movementFieldAngle + (Math.PI/4))) - rotationSpeed;
+
+        leftFront.setPower(leftFrontSpeed);
+        rightFront.setPower(rightFrontSpeed);
+        leftBack.setPower(leftBackSpeed);
+        rightBack.setPower(rightBackSpeed);
+
+        telemetry.addData("LF Speed:",leftFrontSpeed);
+        telemetry.addData("LB Speed:",leftBackSpeed);
+        telemetry.addData("RF Speed:",rightFrontSpeed);
+        telemetry.addData("RB Speed:",rightBackSpeed);
+    }
 
     public void holonomicDriveAuto(double robotSpeed, double movementAngle, double rotationSpeed){
 
@@ -326,6 +393,61 @@ public class ParentOpMode extends LinearOpMode {
         else {
             return false;
         }
+    }
+    //imu functions
+    public double getAngle() {
+        // Z axis is returned as 0 to +180 or 0 to -180 rolling to -179 or +179 when passing 180
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        heading = angles.firstAngle;
+        return heading;
+    }
+
+    String formatAngle(AngleUnit angleUnit, double angle) {  //JWN Added for IMU
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees){  //JWN Added for IMU
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
+
+    public void updateHeading() {
+        heading = getAngle()-headingOffset;
+        resetheading();
+    }
+
+    public void saveHeading() {
+        heading = getAngle();
+        headingOffsetHolder.setOffset(heading);
+    }
+
+
+    public void resetheading(){
+        if (gamepad1.back){
+            sleep(500);
+            if (gamepad1.back) {
+                headingOffset=0;
+                BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+                parameters.mode                = BNO055IMU.SensorMode.IMU;
+                parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+                parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+                parameters.loggingEnabled      = false;
+                // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+                // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+                // and named "imu".
+                imu = hardwareMap.get(BNO055IMU.class, "imu");
+                imu.initialize(parameters);
+
+                while (!isStopRequested() && !imu.isGyroCalibrated()){
+                    sleep(50);
+                    idle();
+                }
+
+            }
+        }
+    }
+
+    public void getHeadingOffsetReal () { //we used the name getHeadingOffsetReal because getHeadingOffset was already taken and this one is the real one as shown with the "real" - Cameron
+        headingOffset = headingOffsetHolder.getOffset();
     }
 
 

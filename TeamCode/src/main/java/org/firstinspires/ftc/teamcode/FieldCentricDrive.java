@@ -38,16 +38,25 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import java.util.Locale;
 
 
-@TeleOp(name="Holonomic: Drive", group="Linear Opmode")
+
+@TeleOp(name="FieldCentric: Drive", group="Linear Opmode")
 //@Disabled
-public class HolonomicDrive extends ParentOpMode {
+public class FieldCentricDrive extends ParentOpMode { // adding a period "." to the end of extends ParentOpMode removes red colors, yet we don't know if it is just a cosmetic thing - Cameron
 
     @Override
     public void runOpMode() {
 
         initialize();
+        headingOffset = headingOffsetHolder.getOffset();  //Retrieve heading from end of autonomous
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -56,7 +65,9 @@ public class HolonomicDrive extends ParentOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            holonomicDrive();
+
+            updateHeading();
+            fieldCentricDrive();
             intake();
             shooter();
             lift();
