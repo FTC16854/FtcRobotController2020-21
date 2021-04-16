@@ -338,7 +338,7 @@ public class ParentOpMode extends LinearOpMode {
 
         rotationSpeed = right_sticky_x()*.75;
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
-        movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) + Math.toRadians(-90); // with 90 degree offset
+        movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) - Math.toRadians(90); // with 90 degree offset
         currentHeading = Math.toRadians(heading);
         movementFieldAngle = (movementAngle - currentHeading);
 
@@ -373,7 +373,7 @@ public class ParentOpMode extends LinearOpMode {
         rightBack.setPower(rightBackSpeed);
     }
 
-    public void StopDrive(){
+    public void stopDrive(){
         leftFront.setPower(0);
         rightFront.setPower(0);
         leftBack.setPower(0);
@@ -575,10 +575,20 @@ public class ParentOpMode extends LinearOpMode {
         return rightBack.getCurrentPosition();
     }
 
-    public void driveInches(double distanceInches ){
+    public void driveInches(double distanceInches,double speed){
         double OdometryWheelDiameter = 3;
         double odometryCircumfrence = Math.PI * OdometryWheelDiameter;
+        double countsperroraion=9192;
+        double targetrotations = distanceInches/odometryCircumfrence;
+        double countstotravel = targetrotations*countsperroraion;
+
+        while(getLeftVerticalEncoder()<countstotravel){
+            holonomicDriveAuto(speed,90,0);
+        }
+        stopDrive();
+
     }
+
 
 
     public void shooterTest(){

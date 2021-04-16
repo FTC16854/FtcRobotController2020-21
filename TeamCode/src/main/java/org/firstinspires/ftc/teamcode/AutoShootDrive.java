@@ -57,11 +57,11 @@ public class AutoShootDrive extends ParentOpMode {
             //distances based on 1.3ft/sec at 0.5 robot drive speed
             holonomicDriveAuto(0.5,270,0);
             sleep(7690);            //7.69 Seconds. Why would we round?
-            StopDrive();
+            stopDrive();
 
             holonomicDriveAuto(0.5,0,0);
             sleep(769);             //.769 Seconds
-            StopDrive();
+            stopDrive();
 
             //shoot three rings
             for(int i = 0; i < 3; i++){
@@ -74,7 +74,7 @@ public class AutoShootDrive extends ParentOpMode {
 
 
 
-            StopDrive();
+            stopDrive();
             saveHeading();
             telemetry.update();
 

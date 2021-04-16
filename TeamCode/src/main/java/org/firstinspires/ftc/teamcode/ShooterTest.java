@@ -52,7 +52,7 @@ public class ShooterTest extends ParentOpMode {
 
             shooterTest();
 
-            if(emergencyStop()){
+            if(emergencyStopped()){
                 break;
             }
 
