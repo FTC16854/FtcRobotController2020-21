@@ -30,11 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 
 @Autonomous(name="Auto Shoot Drive", group="Linear Opmode")
 //@Disabled
@@ -52,7 +47,7 @@ public class AutoShootDrive extends ParentOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            autoclaw(); //close claw on initialize
+            autoClawClose(); //close claw on initialize
 
             //distances based on 1.3ft/sec at 0.5 robot drive speed
             holonomicDriveAuto(0.5,270,0);

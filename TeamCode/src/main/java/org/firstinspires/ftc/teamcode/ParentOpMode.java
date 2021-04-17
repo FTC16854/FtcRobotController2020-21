@@ -133,11 +133,12 @@ public class ParentOpMode extends LinearOpMode {
         shooterFlipper.setDirection(Servo.Direction.REVERSE);
         //intakeLatch.setDirection(Servo.Direction.FORWARD);
         wobbleClaw.setDirection(Servo.Direction.FORWARD);
-        wobbleLift.setDirection(Servo.Direction.FORWARD);
+        wobbleLift.setDirection(Servo.Direction.REVERSE);
         conveyor.setDirection(CRServo.Direction.FORWARD);
 
         //Set range for special Servos
-        wobbleLift.scaleRange(0.15,.85); //Savox PWM range is between 0.8 and 2.2 ms. REV Hub puts out 0.5-2.5ms.
+       // wobbleLift.scaleRange(0.15,.85); //Savox PWM range is between 0.8 and 2.2 ms. REV Hub puts out 0.5-2.5ms.
+        wobbleLift.scaleRange(0.20,.85); //Savox PWM range is between 0.8 and 2.2 ms. REV Hub puts out 0.5-2.5ms.
 
         //Set brake or coast modes. Drive motors should match switch on SPARK Mini attached to LF Drive Motor
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //BRAKE or FLOAT (Coast)
@@ -166,8 +167,8 @@ public class ParentOpMode extends LinearOpMode {
             sleep(50);
             idle();
         }
-
-
+        autoClawClose();
+        autoLiftUp();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -457,7 +458,7 @@ public class ParentOpMode extends LinearOpMode {
 
         boolean clawClose = toggleClaw.toggleButtonDebounced(clawButton());
 
-        if (clawClose) {
+        if (!clawClose) {
             wobbleClaw.setPosition(close_claw);
             telemetry.addData("Claw:", "Closed");
         } else {
@@ -466,8 +467,14 @@ public class ParentOpMode extends LinearOpMode {
         }
     }
 
-    public void autoclaw(){
+    public void autoClawClose(){
         wobbleClaw.setPosition(close_claw);
+    }
+
+    public void autoLiftUp(){
+        double up = 1;
+        wobbleLift.setPosition(up);
+        telemetry.addData("Wobble Lift:","Up");
     }
 
     public void lift() {
@@ -564,7 +571,7 @@ public class ParentOpMode extends LinearOpMode {
 
     //Encoder Functions
     public double getLeftVerticalEncoder(){
-        return rightFront.getCurrentPosition();
+        return -rightFront.getCurrentPosition();
     }
 
     public double getRightVerticalEncoder(){
@@ -653,6 +660,67 @@ public class ParentOpMode extends LinearOpMode {
         }
     }
 
+    //Matt's Test Code
+    /*
+    public void driveInchesVertical(double distanceInches,double speed){    //negative distance to move back
+        double odometryWheelDiameter = 3;
+        double odometryWheelCircumfrence = Math.PI * odometryWheelDiameter;
+        double countsPerRotation=9192;
+        double targetRotations = distanceInches/odometryWheelCircumfrence;
+        double countsToTravel = targetRotations*countsPerRotation;
+
+        double targetCounts = countsToTravel + getLeftVerticalEncoder(); //get target position (counts) by adding
+        //counts to travel to current position
+
+        if(distanceInches < 0){
+            while(getLeftVerticalEncoder() > targetCounts){
+                holonomicDriveAuto(speed,-90,0);
+                telemetry.addData("Target Counts:",targetCounts);
+                telemetry.addData("Current Position:",getLeftVerticalEncoder());
+                telemetry.update();
+            }
+        }
+        else{
+            while(getLeftVerticalEncoder() < targetCounts){
+                holonomicDriveAuto(speed,90,0);
+                telemetry.addData("Target Counts:",targetCounts);
+                telemetry.addData("Current Position:",getLeftVerticalEncoder());
+                telemetry.update();
+            }
+        }
+
+        stopDrive();
+
+    }
+
+    public void driveInchesHorizontal(double distanceInches,double speed){ //negative distance to move left
+        double odometryWheelDiameter = 3;
+        double odometryWheelCircumfrence = Math.PI * odometryWheelDiameter;
+        double countsPerRotation=9192;
+        double targetRotations = distanceInches/odometryWheelCircumfrence;
+        double countsToTravel = targetRotations*countsPerRotation;
+
+        double targetCounts = countsToTravel + getHorizontalEncoder();
+
+        if(distanceInches < 0){
+            while(getHorizontalEncoder() > targetCounts){
+                holonomicDriveAuto(speed,180,0);
+                telemetry.addData("Target Counts:",targetCounts);
+                telemetry.addData("Current Position:",getHorizontalEncoder());
+            }
+        }
+        else{
+            while(getHorizontalEncoder() < targetCounts){
+                holonomicDriveAuto(speed,0,0);
+                telemetry.addData("Target Counts:",targetCounts);
+                telemetry.addData("Current Position:",getHorizontalEncoder());
+            }
+        }
+
+        stopDrive();
+
+    }
+*/
 
 
 }
@@ -661,7 +729,6 @@ public class ParentOpMode extends LinearOpMode {
         //  Odometry/encoders
         //  Gyro
         //      -for drive-straight, auto turning
-        //      -field-centric driving
         //  Global Variables
         //      -For shooter flipper positions
         //
