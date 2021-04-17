@@ -1,0 +1,56 @@
+    public void driveInchesVertical(double distanceInches,double speed){    //negative distance to move back
+        double odometryWheelDiameter = 3;
+        double odometryWheelCircumfrence = Math.PI * odometryWheelDiameter;
+        double countsPerRotation=9192;
+        double targetRotations = distanceInches/odometryWheelCircumfrence;
+        double countsToTravel = targetRotations*countsPerRotation;
+
+        double targetCounts = countsToTravel + getLeftVerticalEncoder(); //get target position (counts) by adding
+                                                                         //counts to travel to current position
+
+        if(distanceInches < 0){
+            while(getLeftVerticalEncoder() > targetCounts){
+                holonomicDriveAuto(speed,90,0);
+                telemetry.addData("Target Counts:",countsToTravel);
+                telemetry.addData("Current Position:",getLeftVerticalEncoder());
+            }
+        }
+        else{
+            while(getLeftVerticalEncoder() < targetCounts){
+                holonomicDriveAuto(speed,-90,0);
+                telemetry.addData("Target Counts:",countsToTravel);
+                telemetry.addData("Current Position:",getLeftVerticalEncoder());
+            }
+        }
+
+        stopDrive();
+
+    }
+
+    public void driveInchesHorizontal(double distanceInches,double speed){ //negative distance to move left
+        double odometryWheelDiameter = 3;
+        double odometryWheelCircumfrence = Math.PI * odometryWheelDiameter;
+        double countsPerRotation=9192;
+        double targetRotations = distanceInches/odometryWheelCircumfrence;
+        double countsToTravel = targetRotations*countsPerRotation;
+
+        double targetCounts = countsToTravel + getHorizontalEncoder();
+
+        if(distanceInches < 0){
+            while(getHorizontalEncoder() > targetCounts){
+                holonomicDriveAuto(speed,180,0);
+                telemetry.addData("Target Counts:",targetCounts);
+                telemetry.addData("Current Position:",getHorizontalEncoder());
+            }
+        }
+        else{
+            while(getHorizontalEncoder() < targetCounts){
+                holonomicDriveAuto(speed,0,0);
+                telemetry.addData("Target Counts:",targetCounts);
+                telemetry.addData("Current Position:",getHorizontalEncoder());
+            }
+        }
+
+        stopDrive();
+
+    }
