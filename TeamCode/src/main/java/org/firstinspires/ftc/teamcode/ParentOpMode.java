@@ -338,7 +338,7 @@ public class ParentOpMode extends LinearOpMode {
 
         rotationSpeed = right_sticky_x()*.75;
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
-        movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) - Math.toRadians(90); // with 90 degree offset
+        movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) - Math.toRadians(180); // with 90 degree offset
         currentHeading = Math.toRadians(heading);
         movementFieldAngle = (movementAngle - currentHeading);
 
@@ -515,7 +515,7 @@ public class ParentOpMode extends LinearOpMode {
         double shootPosition = .3;  //flipper position
         double neutralPosition = 0;
         //double shooterSpeed = .8;
-        double shooterSpeed = 1;
+        double shooterSpeed = .445                            ;
 
         if(ShooterStartButton()){
             shooterMotor.setPower(shooterSpeed);
@@ -595,19 +595,19 @@ public class ParentOpMode extends LinearOpMode {
         double shooterspeed = 0;
 
         if(gamepad1.a){
-            shooterspeed = 0.2;
-        }
-        else if(gamepad1.x){
             shooterspeed = 0.4;
         }
+        else if(gamepad1.x){
+            shooterspeed = 0.435;
+        }
         else if(gamepad1.y){
-            shooterspeed = 0.6;
+            shooterspeed = 0.44;
         }
         else if(gamepad1.b){
-            shooterspeed = 0.8;
+            shooterspeed = 0.445;
         }
         else if(gamepad1.right_bumper){
-            shooterspeed = 0.9;
+            shooterspeed = 0.45;
         }
 
         if((shooterspeed > 0) && shootButton()){
