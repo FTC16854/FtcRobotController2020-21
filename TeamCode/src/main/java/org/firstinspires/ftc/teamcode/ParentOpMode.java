@@ -410,18 +410,18 @@ public class ParentOpMode extends LinearOpMode {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
-    public void updateHeading() {
+    public void updateHeading() {  // Run during every cycle of teliop
         heading = getAngle()-headingOffset;
         resetheading();
     }
 
-    public void saveHeading() {
+    public void saveHeading() {  //Used after running autonomous to save the current heading
         heading = getAngle();
         headingOffsetHolder.setOffset(heading);
     }
 
 
-    public void resetheading(){
+    public void resetheading(){  //Used during teliop if the robot heading needs to be reset
         if (gamepad1.back){
             sleep(500);
             if (gamepad1.back) {
