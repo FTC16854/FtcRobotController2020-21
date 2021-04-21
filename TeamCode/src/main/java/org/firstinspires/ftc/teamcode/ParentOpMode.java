@@ -170,6 +170,8 @@ public class ParentOpMode extends LinearOpMode {
         autoClawClose();
         autoLiftUp();
 
+        getHeadingOffsetReal();
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
     }
