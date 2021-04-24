@@ -565,8 +565,9 @@ public class ParentOpMode extends LinearOpMode {
         double neutralPosition = 0;
 
         shooterFlipper.setPosition(shootPosition);
-        sleep(500);
+        sleep(250);
         shooterFlipper.setPosition(neutralPosition);
+        sleep ( 250);
     }
 
 

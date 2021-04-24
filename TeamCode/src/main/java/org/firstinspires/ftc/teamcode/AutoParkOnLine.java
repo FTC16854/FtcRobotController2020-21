@@ -62,7 +62,7 @@ public class AutoParkOnLine extends ParentOpMode {
         while (opModeIsActive()) {
           autoClawClose();
             holonomicDriveAuto(0.5,270,0);
-            sleep(5000);
+            sleep(4700);
             stopDrive();
 
 
