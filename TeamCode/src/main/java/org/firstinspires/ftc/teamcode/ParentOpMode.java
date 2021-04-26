@@ -397,6 +397,7 @@ public class ParentOpMode extends LinearOpMode {
             return false;
         }
     }
+
     //imu functions
     public double getAngle() {
         // Z axis is returned as 0 to +180 or 0 to -180 rolling to -179 or +179 when passing 180
@@ -524,7 +525,7 @@ public class ParentOpMode extends LinearOpMode {
         double shootPosition = .3;  //flipper position
         double neutralPosition = 0;
         //double shooterSpeed = .8;
-        double shooterSpeed = .445                            ;
+        double shooterSpeed = .445;
 
         if(ShooterStartButton()){
             shooterMotor.setPower(shooterSpeed);
@@ -585,19 +586,72 @@ public class ParentOpMode extends LinearOpMode {
         return rightBack.getCurrentPosition();
     }
 
-    public void driveInches(double distanceInches,double speed){
+    public void driveInchesHorizontal(double distanceInches,double speed) {
         double OdometryWheelDiameter = 3;
         double odometryCircumfrence = Math.PI * OdometryWheelDiameter;
-        double countsperroraion=9192;
-        double targetrotations = distanceInches/odometryCircumfrence;
-        double countstotravel = targetrotations*countsperroraion;
+        double countsperroraion = 8192;
+        double targetrotations = distanceInches / odometryCircumfrence;
+        double countsToTravel = targetrotations * countsperroraion;
+        double targetCount = countsToTravel + getHorizontalEncoder();
 
-        while(getLeftVerticalEncoder()<countstotravel){
-            holonomicDriveAuto(speed,90,0);
+
+        if (distanceInches > 0) {
+
+
+            while (getHorizontalEncoder() < targetCount) {
+                holonomicDriveAuto(speed, 0, 0);
+                telemetry.addData("target", targetCount);
+                telemetry.addData("current possision", getHorizontalEncoder());
+                telemetry.update();
+
+                stopDrive();
+            }
+        } else {
+            while (getHorizontalEncoder() > targetCount) {
+                holonomicDriveAuto(speed, 180, 0);
+                telemetry.addData("target", targetCount);
+                telemetry.addData("current possision", getHorizontalEncoder());
+                telemetry.update();
+
+                stopDrive();
+            }
         }
-        stopDrive();
-
     }
+
+        public void driveInchesVertical(double distanceInches,double speed){
+            double OdometryWheelDiameter = 3;
+            double odometryCircumfrence = Math.PI * OdometryWheelDiameter;
+            double countsperroraion=8192;
+            double targetrotations = distanceInches/odometryCircumfrence;
+            double countsToTravel = targetrotations*countsperroraion;
+            double targetCount = countsToTravel + getLeftVerticalEncoder();
+
+
+            if(distanceInches > 0) {
+
+
+                while (getLeftVerticalEncoder() < targetCount) {
+                    holonomicDriveAuto(speed, 90, 0);
+                    telemetry.addData("target", targetCount);
+                    telemetry.addData("current possision", getLeftVerticalEncoder());
+                    telemetry.update();
+
+                    stopDrive();
+                }
+            }
+            else {
+                while (getLeftVerticalEncoder() > targetCount) {
+                    holonomicDriveAuto(speed, -90, 0);
+                    telemetry.addData("target", targetCount);
+                    telemetry.addData("current possision", getLeftVerticalEncoder());
+                    telemetry.update();
+
+                    stopDrive();
+                }
+            }
+            }
+
+
 
 
 
@@ -743,6 +797,6 @@ public class ParentOpMode extends LinearOpMode {
         //      1003.6 Counts per Output Shaft Rotation
 
         //Odometry Wheels
-        //      9192 Counts per revolution
+        //      8192 Counts per revolution
 
 
