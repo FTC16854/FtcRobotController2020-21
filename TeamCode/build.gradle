@@ -20,4 +20,5 @@ dependencies {
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 
     implementation 'org.openftc:rev-extensions-2:1.2'   //rev extensions for current monitoring/extended rev hub control
+    implementation 'org.openftc:easyopencv:1.4.1'
 }
