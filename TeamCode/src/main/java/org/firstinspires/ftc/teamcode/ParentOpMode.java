@@ -341,7 +341,7 @@ public class ParentOpMode extends LinearOpMode {
 
         rotationSpeed = right_sticky_x()*.75;
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
-        movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) - Math.toRadians(180); // with 90 degree offset
+        movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) - Math.toRadians(180); // with corrected degree offset
         currentHeading = Math.toRadians(heading);
         movementFieldAngle = (movementAngle - currentHeading);
 

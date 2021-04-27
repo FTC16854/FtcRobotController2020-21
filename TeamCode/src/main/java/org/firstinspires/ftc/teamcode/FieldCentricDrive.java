@@ -57,6 +57,7 @@ public class FieldCentricDrive extends ParentOpMode { // adding a period "." to 
 
         initialize();
         headingOffset = headingOffsetHolder.getOffset();  //Retrieve heading from end of autonomous
+        //getHeadingOffsetReal ();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
