@@ -69,6 +69,11 @@ public class AutoParkOnLineOdometry extends ParentOpMode {
             }
             shooterStop();
 
+            //POD2 Test code
+            rotateToHeading(.5,90,'r');
+            sleep(1000);
+            rotateToHeading(.5,0,'l');
+
             saveHeading();
             telemetry.update();
             break;

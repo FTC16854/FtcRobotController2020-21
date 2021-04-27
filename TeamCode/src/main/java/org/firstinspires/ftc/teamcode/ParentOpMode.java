@@ -652,8 +652,26 @@ public class ParentOpMode extends LinearOpMode {
             }
 
 
+//autonomoserotationcode
+public void rotateToHeading(double turnSpeed, double desiredHeading, char rl){
+        heading = getAngle();
 
 
+         if(rl == 'l'){
+             while (heading > desiredHeading) {
+                 holonomicDriveAuto(0,0,-turnSpeed);
+                 heading = getAngle();
+             }
+         }
+         else{
+             while ( heading < desiredHeading) {
+                 holonomicDriveAuto(0,0,turnSpeed);
+                 heading = getAngle();
+             }
+         }
+         stopDrive();
+
+}
 
     public void shooterTest(){
         double shooterspeed = 0;
