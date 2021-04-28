@@ -60,26 +60,29 @@ public class AutoParkOnLineOdometry extends ParentOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-          autoClawClose();
-           driveInchesHorizontal(-12,1);
-           driveInchesVertical(-84,1);
-           driveInchesHorizontal(12,1);
-            for(int i = 0; i < 3; i++){
-                shootAuto(0.75);
-            }
-            shooterStop();
+//          autoClawClose();
+//          driveInchesHorizontal(12,1);
+//          driveInchesVertical(-55,1);
+//          driveInchesHorizontal(-12,1);
+//          for(int i = 0; i < 3; i++){
+//                shootAuto(0.47);
+//          }
+//          shooterStop();
+//
+//          driveInchesVertical(-14, 1);
 
-            //POD2 Test code
-            rotateToHeading(.5,90,'r');
+          //POD2 Test code
+            rotateToHeading(.35,90,'r');
             sleep(1000);
             rotateToHeading(.5,0,'l');
 
-            saveHeading();
-            telemetry.update();
-            break;
+          saveHeading();
+          telemetry.update();
+          break;
 
         }
     }
+
 }
 
 

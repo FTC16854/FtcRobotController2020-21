@@ -589,16 +589,16 @@ public class ParentOpMode extends LinearOpMode {
     public void driveInchesHorizontal(double distanceInches,double speed) {
         double OdometryWheelDiameter = 3;
         double odometryCircumfrence = Math.PI * OdometryWheelDiameter;
-        double countsperroraion = 8192;
+        double countsPerRotation = 8192;
         double targetrotations = distanceInches / odometryCircumfrence;
-        double countsToTravel = targetrotations * countsperroraion;
+        double countsToTravel = targetrotations * countsPerRotation;
         double targetCount = countsToTravel + getHorizontalEncoder();
 
 
         if (distanceInches > 0) {
 
 
-            while (getHorizontalEncoder() < targetCount) {
+            while ((getHorizontalEncoder() < targetCount)&& opModeIsActive()) {
                 holonomicDriveAuto(speed, 0, 0);
                 telemetry.addData("target", targetCount);
                 telemetry.addData("current possision", getHorizontalEncoder());
@@ -607,7 +607,7 @@ public class ParentOpMode extends LinearOpMode {
                 stopDrive();
             }
         } else {
-            while (getHorizontalEncoder() > targetCount) {
+            while(getHorizontalEncoder() > targetCount) {
                 holonomicDriveAuto(speed, 180, 0);
                 telemetry.addData("target", targetCount);
                 telemetry.addData("current possision", getHorizontalEncoder());
@@ -621,9 +621,9 @@ public class ParentOpMode extends LinearOpMode {
         public void driveInchesVertical(double distanceInches,double speed){
             double OdometryWheelDiameter = 3;
             double odometryCircumfrence = Math.PI * OdometryWheelDiameter;
-            double countsperroraion=8192;
+            double countsPerRotation=8192;
             double targetrotations = distanceInches/odometryCircumfrence;
-            double countsToTravel = targetrotations*countsperroraion;
+            double countsToTravel = targetrotations*countsPerRotation;
             double targetCount = countsToTravel + getLeftVerticalEncoder();
 
 
@@ -661,12 +661,18 @@ public void rotateToHeading(double turnSpeed, double desiredHeading, char rl){
              while (heading > desiredHeading) {
                  holonomicDriveAuto(0,0,-turnSpeed);
                  heading = getAngle();
+                 heading = getAngle();
+                 telemetry.addData("heading:",heading);
+                 telemetry.update();
+
              }
          }
          else{
              while ( heading < desiredHeading) {
                  holonomicDriveAuto(0,0,turnSpeed);
                  heading = getAngle();
+                 telemetry.addData("heading:",heading);
+                 telemetry.update();
              }
          }
          stopDrive();

@@ -8,7 +8,7 @@ Encoder Ports
     0   Shooter
     1   Odometry Left Vertical
     2   Odometry Right Vertical
-    3   Odometry Horiizontal
+    3   Odometry Horizontal
 
 Servo Ports
     0   LF - SPARK Mini        lf_drive
