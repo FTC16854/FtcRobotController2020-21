@@ -45,9 +45,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Park On Line Odometry", group="Linear Opmode")
+@Autonomous(name="Ring Thing Odometry", group="Linear Opmode")
 //@Disabled
-public class AutoParkOnLineOdometry extends ParentOpMode {
+public class AutoParkOnLineOdometryWobbleDropOff extends ParentOpMode {
 
     @Override
     public void runOpMode() {
@@ -60,29 +60,35 @@ public class AutoParkOnLineOdometry extends ParentOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-//          autoClawClose();
-//          driveInchesHorizontal(12,1);
-//          driveInchesVertical(-55,1);
-//          driveInchesHorizontal(-12,1);
-          for(int i = 0; i < 3; i++){
-                shootAuto(0.45);
-          }
-          shooterStop();
-
-//          driveInchesVertical(-14, 1);
-
-//          //POD2 Test code
-//            rotateToHeading(.35,90,'r');
-//            sleep(1000);
-//            rotateToHeading(.5,0,'l');
-
-          saveHeading();
-          telemetry.update();
-          break;
-
+            Driveandshoot();
+            zeroRings();
+            stopDrive();
+            saveHeading();
+            break;
         }
     }
+        public void zeroRings(){
+        rotateToHeading(.3,90,'r');
+        driveInchesVertical(12,1);
+        autoLiftDown();
+        sleep(1000);
+        autoClawOpen();
 
+        }
+        public void Driveandshoot(){
+            autoClawClose();
+            autoLiftUp():
+            sleep(1000);
+            driveInchesVertical(-55, 1);
+            driveInchesHorizontal(12, 1);
+            for (int i = 0; i < 3; i++) {
+                shootAuto(0.45);
+            }
+            shooterStop();
+
+            driveInchesVertical(-14, 1);
+
+        }
 }
 
 

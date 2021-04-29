@@ -474,10 +474,20 @@ public class ParentOpMode extends LinearOpMode {
         wobbleClaw.setPosition(close_claw);
     }
 
+    public void autoClawOpen() {
+        wobbleClaw.setPosition(open_claw);
+    }
+
     public void autoLiftUp(){
         double up = 1;
         wobbleLift.setPosition(up);
         telemetry.addData("Wobble Lift:","Up");
+    }
+
+    public void autoLiftDown() {
+        double down = 0;
+        wobbleLift.setPosition(down);
+        telemetry.addData("Wobble Lift:", "Down");
     }
 
     public void lift() {
@@ -555,7 +565,7 @@ public class ParentOpMode extends LinearOpMode {
     public void shootAuto(double speed){
 
         shooterStart(speed);
-        sleep(2500);
+        sleep(3000);
         shooterFlip();
 
         //make neutral and shooter positions global variables? incorporate shooterStart and shooterStop into shooter()?
