@@ -41,7 +41,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -95,6 +95,7 @@ public class ParentOpMode extends LinearOpMode {
     Toggle toggleClaw = new Toggle();
     Toggle toggleLift = new Toggle();
     Toggle toggleDirection = new Toggle();
+    Toggle toggleShootermotor = new Toggle();
 
     //Other Global Variables
     //put global variables here...
@@ -245,7 +246,7 @@ public class ParentOpMode extends LinearOpMode {
         }
     }
 
-    public boolean ShooterStartButton(){
+    public boolean shooterStartButton(){
         if(gamepad1.right_bumper||gamepad2.right_bumper){
             return true;
         }
@@ -309,7 +310,7 @@ public class ParentOpMode extends LinearOpMode {
         double movementAngle;
         double rotationSpeed;
 
-        rotationSpeed = right_sticky_x()*.75;
+        rotationSpeed = right_sticky_x()*.5;
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
         movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) + Math.toRadians(-90); // with 90 degree offset
 
@@ -339,7 +340,7 @@ public class ParentOpMode extends LinearOpMode {
         double currentHeading;
         double movementFieldAngle;
 
-        rotationSpeed = right_sticky_x()*.75;
+        rotationSpeed = right_sticky_x()*.5;
         robotSpeed = Math.hypot(left_sticky_x(), left_sticky_y());
         movementAngle = Math.atan2(left_sticky_y(), left_sticky_x()) - Math.toRadians(180); // with corrected degree offset
         currentHeading = Math.toRadians(heading);
@@ -537,7 +538,7 @@ public class ParentOpMode extends LinearOpMode {
         //double shooterSpeed = .8;
         double shooterSpeed = .445;
 
-        if(ShooterStartButton()){
+        if(toggleShootermotor.toggleButtonDebounced(shooterStartButton())){
             shooterMotor.setPower(shooterSpeed);
             telemetry.addData("Shooter:","Spinning");
             if(shootButton()){
@@ -549,6 +550,7 @@ public class ParentOpMode extends LinearOpMode {
             }
         }
         else{
+            shooterFlipper.setPosition(neutralPosition);
             shooterMotor.setPower(0);
             telemetry.addData("Shooter:","Stopped");
         }
@@ -668,7 +670,7 @@ public void rotateToHeading(double turnSpeed, double desiredHeading, char rl){
 
 
          if(rl == 'l'){
-             while (heading > desiredHeading) {
+             while (heading < desiredHeading) {
                  holonomicDriveAuto(0,0,-turnSpeed);
                  heading = getAngle();
                  heading = getAngle();
@@ -678,7 +680,7 @@ public void rotateToHeading(double turnSpeed, double desiredHeading, char rl){
              }
          }
          else{
-             while ( heading < desiredHeading) {
+             while ( heading > desiredHeading) {
                  holonomicDriveAuto(0,0,turnSpeed);
                  heading = getAngle();
                  telemetry.addData("heading:",heading);
