@@ -77,7 +77,7 @@ public class AutoParkOnLineOdometryWobbleDropOff extends ParentOpMode {
         }
         public void Driveandshoot(){
             autoClawClose();
-            autoLiftUp():
+            autoLiftUp();
             sleep(1000);
             driveInchesVertical(-55, 1);
             driveInchesHorizontal(12, 1);
