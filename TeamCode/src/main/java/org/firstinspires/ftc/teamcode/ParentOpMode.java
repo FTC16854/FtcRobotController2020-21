@@ -68,8 +68,8 @@ import org.openftc.revextensions2.ExpansionHubEx;
 @Disabled
 public class ParentOpMode extends LinearOpMode {
 
-    // Declare OpMode members.
-    public ElapsedTime runtime = new ElapsedTime();
+    public ElapsedTime runtime = new ElapsedTime();    // Declare OpMode members.
+
     private DcMotorSimple leftFront = null; //DcMotorSimple because it is connected to SPARK Mini
     private DcMotor leftBack = null;
     private DcMotor rightFront = null;
@@ -87,7 +87,6 @@ public class ParentOpMode extends LinearOpMode {
     Orientation angles = new Orientation();
     double heading;
     double headingOffset;
-
 
     ExpansionHubEx expansionHub;    //use for rev extensions
 

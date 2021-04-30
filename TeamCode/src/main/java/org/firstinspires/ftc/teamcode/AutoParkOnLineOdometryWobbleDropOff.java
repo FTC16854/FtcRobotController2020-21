@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.widget.Switch;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
@@ -47,7 +49,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name="Ring Thing Odometry", group="Linear Opmode")
 //@Disabled
-public class AutoParkOnLineOdometryWobbleDropOff extends ParentOpMode {
+public class AutoParkOnLineOdometryWobbleDropOff extends visionParentOpMode {
 
     @Override
     public void runOpMode() {
@@ -57,6 +59,11 @@ public class AutoParkOnLineOdometryWobbleDropOff extends ParentOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+
+        //select autonomous mode
+
+
+
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
