@@ -67,6 +67,7 @@ public class AutoParkOnLineOdometryWobbleDropOff extends visionParentOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
             Driveandshoot();
             zeroRings();
             stopDrive();
@@ -74,50 +75,50 @@ public class AutoParkOnLineOdometryWobbleDropOff extends visionParentOpMode {
             break;
         }
     }
-       public void fourRings(){
-            driveInchesVertical(-60,1);
-            rotateToHeading(.1,90,'r');
-            driveInchesVertical(-12,1);
-            autoLiftDown();
-            sleep(1000);
-            autoClawOpen();
-            driveInchesVertical(12,1);
-            driveInchesHorizontal(60,1);
-           rotateToHeading(.1,0,'l');
-       }
+    public void fourRings(){
+        driveInchesVertical(-60,1);
+        rotateToHeading(.1,90,'r');
+        driveInchesVertical(-12,1);
+        autoLiftDown();
+        sleep(1000);
+        autoClawOpen();
+        driveInchesVertical(12,1);
+        driveInchesHorizontal(60,1);
+        rotateToHeading(.1,0,'l');
+    }
 
-        public void oneRings(){
-            driveInchesVertical(-48,1);
-            autoLiftDown();
-            sleep(1000);
-            autoClawOpen();
-            driveInchesVertical(42,1);
-            rotateToHeading(.1,0,'l');
+    public void oneRings(){
+        driveInchesVertical(-48,1);
+        autoLiftDown();
+        sleep(1000);
+        autoClawOpen();
+        driveInchesVertical(42,1);
+        rotateToHeading(.1,0,'l');
+    }
+
+    public void zeroRings(){
+        rotateToHeading(.1,90,'r');
+        driveInchesHorizontal(14,1);
+        driveInchesVertical(18,1);
+        autoLiftDown();
+        sleep(1000);
+        autoClawOpen();
+        driveInchesVertical(12,1);
+        rotateToHeading(.1,0,'l');
+    }
+    public void Driveandshoot(){
+        autoClawClose();
+        autoLiftUp();
+
+        sleep(1000);
+        driveInchesVertical(-55, 1);
+        driveInchesHorizontal(18, 1);
+        for (int i = 0; i < 3; i++) {
+            shootAuto(0.45);
         }
+        shooterStop();
 
-        public void zeroRings(){
-            rotateToHeading(.1,90,'r');
-            driveInchesHorizontal(14,1);
-            driveInchesVertical(18,1);
-            autoLiftDown();
-            sleep(1000);
-            autoClawOpen();
-            driveInchesVertical(12,1);
-            rotateToHeading(.1,0,'l');
-        }
-        public void Driveandshoot(){
-            autoClawClose();
-            autoLiftUp();
-
-            sleep(1000);
-            driveInchesVertical(-55, 1);
-            driveInchesHorizontal(18, 1);
-            for (int i = 0; i < 3; i++) {
-                shootAuto(0.45);
-            }
-            shooterStop();
-
-        }
+    }
 }
 
 

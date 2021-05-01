@@ -21,8 +21,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
@@ -34,22 +33,22 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@TeleOp
+@Autonomous(name="VisionAuto1", group="Linear Opmode")
 public class visionParentOpMode extends ParentOpMode
 {
-    OpenCvInternalCamera phoneCam;
-    SkystoneDeterminationPipeline pipeline;
+    OpenCvCamera phoneCam;
+    RingDeterminationPipeline pipeline;
 
     @Override
     public void runOpMode()
     {
+        initialize();
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = (OpenCvInternalCamera) OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get (WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        pipeline = new SkystoneDeterminationPipeline();
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class,"Webcam 1"), cameraMonitorViewId);
+        pipeline = new RingDeterminationPipeline();
         phoneCam.setPipeline(pipeline);
 
         // We set the viewport policy to optimized view so the preview doesn't appear 90 deg
@@ -68,6 +67,8 @@ public class visionParentOpMode extends ParentOpMode
 
         waitForStart();
 
+
+        runtime.reset();
         while (opModeIsActive())
         {
             telemetry.addData("Analysis", pipeline.getAnalysis());
@@ -76,13 +77,103 @@ public class visionParentOpMode extends ParentOpMode
 
             // Don't burn CPU cycles busy-looping in this sample
             sleep(50);
+
+            //Autnomous Code start
+            //Branch into different autonomous modes using vision data
+            switch (pipeline.position){
+                //If one ring detected
+                case ONE:
+                    //Update telemetry
+                    telemetry.addData("Rings_Detected: ", "1");
+                    telemetry.update();
+                    //sleep(30000);
+                    phoneCam.closeCameraDevice();
+                    //Run specific autonomous
+                    Driveandshoot();
+                    oneRings();
+                    stopDrive();
+                    saveHeading();
+                    break;
+
+                 //If four rings detected
+                case FOUR:
+                    telemetry.addData("Rings_Detected: ", "4");
+                    telemetry.update();
+                    //sleep(30000);
+                    phoneCam.closeCameraDevice();
+                    Driveandshoot();
+                    fourRings();
+                    stopDrive();
+                    saveHeading();
+                    break;
+
+                //If no rings detected
+                case NONE:
+                    telemetry.addData("Rings_Detected: ", "0");
+                    telemetry.update();
+                    //sleep(30000);
+                    phoneCam.closeCameraDevice();
+                    Driveandshoot();
+                    zeroRings();
+                    stopDrive();
+                    saveHeading();
+                    break;
+
+
+            }
+            break;
         }
     }
+    public void fourRings(){
+        driveInchesVertical(-60,1);
+        rotateToHeading(.1,90,'r');
+        driveInchesVertical(-12,1);
+        autoLiftDown();
+        sleep(1000);
+        autoClawOpen();
+        driveInchesVertical(12,1);
+        driveInchesHorizontal(60,1);
+        rotateToHeading(.1,0,'l');
+    }
 
-    public static class SkystoneDeterminationPipeline extends OpenCvPipeline
+    public void oneRings(){
+        driveInchesVertical(-48,1);
+        autoLiftDown();
+        sleep(1000);
+        autoClawOpen();
+        driveInchesVertical(42,1);
+        rotateToHeading(.1,0,'l');
+    }
+
+    public void zeroRings(){
+        rotateToHeading(.1,90,'r');
+        driveInchesHorizontal(14,1);
+        driveInchesVertical(18,1);
+        autoLiftDown();
+        sleep(1000);
+        autoClawOpen();
+        driveInchesVertical(12,1);
+        rotateToHeading(.1,0,'l');
+    }
+
+    public void Driveandshoot(){
+        autoClawClose();
+        autoLiftUp();
+
+        sleep(1000);
+        driveInchesVertical(-55, 1);
+        driveInchesHorizontal(42, 1);
+        for (int i = 0; i < 3; i++) {
+            shootAuto(0.45);
+        }
+        shooterStop();
+
+    }
+
+    public static class RingDeterminationPipeline extends OpenCvPipeline
     {
         /*
-         * An enum to define the skystone position
+         * An enum to define the number of rings in the stack
          */
         public enum RingPosition
         {
@@ -100,10 +191,13 @@ public class visionParentOpMode extends ParentOpMode
         /*
          * The core values which define the location and size of the sample regions
          */
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(181,98);
+    //    static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(181,98);
+        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(80,185);
 
-        static final int REGION_WIDTH = 35;
-        static final int REGION_HEIGHT = 25;
+        static final int REGION_WIDTH = 40;
+        static final int REGION_HEIGHT = 40;
+//        static final int REGION_WIDTH = 60;
+//        static final int REGION_HEIGHT = 40;
 
         final int FOUR_RING_THRESHOLD = 150;
         final int ONE_RING_THRESHOLD = 135;
@@ -183,9 +277,6 @@ public class visionParentOpMode extends ParentOpMode
         }
     }
 
-    public void autonomous(){
-        switch (position){
 
-        }
-    }
+
 }

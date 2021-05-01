@@ -506,7 +506,7 @@ public class ParentOpMode extends LinearOpMode {
 
 
     public void intake(){
-        double intakeServoSpeed = 1;
+        double intakeServoSpeed = .7;
         double conveyorServoSpeed = 1;
 
         if(intakeButton()){
@@ -694,19 +694,19 @@ public void rotateToHeading(double turnSpeed, double desiredHeading, char rl){
         double shooterspeed = 0;
 
         if(gamepad1.a){
-            shooterspeed = 0.4;
-        }
-        else if(gamepad1.x){
-            shooterspeed = 0.435;
-        }
-        else if(gamepad1.y){
-            shooterspeed = 0.44;
-        }
-        else if(gamepad1.b){
             shooterspeed = 0.445;
         }
+        else if(gamepad1.x){
+            shooterspeed = 0.475;
+        }
+        else if(gamepad1.y){
+            shooterspeed = 0.5;
+        }
+        else if(gamepad1.b){
+            shooterspeed = 0.525;
+        }
         else if(gamepad1.right_bumper){
-            shooterspeed = 0.45;
+            shooterspeed = 0.555;
         }
 
         if((shooterspeed > 0) && shootButton()){
