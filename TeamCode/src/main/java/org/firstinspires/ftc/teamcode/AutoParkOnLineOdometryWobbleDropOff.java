@@ -27,6 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 package org.firstinspires.ftc.teamcode;
 
 import android.widget.Switch;
@@ -106,6 +107,7 @@ public class AutoParkOnLineOdometryWobbleDropOff extends visionParentOpMode {
         driveInchesVertical(12,1);
         rotateToHeading(.1,0,'l');
     }
+
     public void Driveandshoot(){
         autoClawClose();
         autoLiftUp();
