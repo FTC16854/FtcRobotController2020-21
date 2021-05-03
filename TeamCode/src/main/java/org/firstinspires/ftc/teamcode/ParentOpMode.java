@@ -610,6 +610,7 @@ public class ParentOpMode extends LinearOpMode {
 
 
             while ((getHorizontalEncoder() < targetCount)&& opModeIsActive()) {
+                //MOVE LEFT: movement angleAngle of 359 veers right, 1 veers left
                 holonomicDriveAuto(speed, 0, 0);
                 telemetry.addData("target", targetCount);
                 telemetry.addData("current possision", getHorizontalEncoder());
@@ -619,6 +620,7 @@ public class ParentOpMode extends LinearOpMode {
             }
         } else {
             while(getHorizontalEncoder() > targetCount) {
+                //MOVE RIGHT: movement angleAngle of 181 should veer left, 179 should veer right
                 holonomicDriveAuto(speed, 180, 0);
                 telemetry.addData("target", targetCount);
                 telemetry.addData("current possision", getHorizontalEncoder());
@@ -642,6 +644,7 @@ public class ParentOpMode extends LinearOpMode {
 
 
                 while (getLeftVerticalEncoder() < targetCount) {
+                    //MOVE shooter end Backwards: movement angleAngle of 91 goes to left, -89 goes right
                     holonomicDriveAuto(speed, 90, 0);
                     telemetry.addData("target", targetCount);
                     telemetry.addData("current possision", getLeftVerticalEncoder());
@@ -652,6 +655,7 @@ public class ParentOpMode extends LinearOpMode {
             }
             else {
                 while (getLeftVerticalEncoder() > targetCount) {
+                    //MOVE shooter end Forwards: movement angleAngle of -91 goes to right, -89 goes left
                     holonomicDriveAuto(speed, -90, 0);
                     telemetry.addData("target", targetCount);
                     telemetry.addData("current possision", getLeftVerticalEncoder());
@@ -663,15 +667,14 @@ public class ParentOpMode extends LinearOpMode {
             }
 
 
-//autonomoserotationcode
+//Autonomous Rotation Code
 public void rotateToHeading(double turnSpeed, double desiredHeading, char rl){
+        //NOTE: This code cannot rotate to / through/ across the 180* point
         heading = getAngle();
-
 
          if(rl == 'l'){
              while (heading < desiredHeading) {
                  holonomicDriveAuto(0,0,-turnSpeed);
-                 heading = getAngle();
                  heading = getAngle();
                  telemetry.addData("heading:",heading);
                  telemetry.update();
