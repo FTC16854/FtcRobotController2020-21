@@ -33,7 +33,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name="Auto Shoot Drive", group="Linear Opmode")
 //@Disabled
-public class AutoShootDrive extends ParentOpMode {
+public class
+AutoShootDrive extends ParentOpMode {
 
     @Override
     public void runOpMode() {

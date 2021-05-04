@@ -170,7 +170,7 @@ public class ParentOpMode extends LinearOpMode {
         autoClawClose();
         autoLiftUp();
 
-        getHeadingOffsetReal();
+//        getHeadingOffsetReal();
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -566,7 +566,7 @@ public class ParentOpMode extends LinearOpMode {
     public void shootAuto(double speed){
 
         shooterStart(speed);
-        sleep(3000);
+        sleep(1500);
         shooterFlip();
 
         //make neutral and shooter positions global variables? incorporate shooterStart and shooterStop into shooter()?
@@ -616,7 +616,7 @@ public class ParentOpMode extends LinearOpMode {
                 telemetry.addData("current possision", getHorizontalEncoder());
                 telemetry.update();
 
-                stopDrive();
+
             }
         } else {
             while(getHorizontalEncoder() > targetCount) {
@@ -626,9 +626,10 @@ public class ParentOpMode extends LinearOpMode {
                 telemetry.addData("current possision", getHorizontalEncoder());
                 telemetry.update();
 
-                stopDrive();
+
             }
         }
+        stopDrive();
     }
 
         public void driveInchesVertical(double distanceInches,double speed){
@@ -650,7 +651,7 @@ public class ParentOpMode extends LinearOpMode {
                     telemetry.addData("current possision", getLeftVerticalEncoder());
                     telemetry.update();
 
-                    stopDrive();
+
                 }
             }
             else {
@@ -661,9 +662,10 @@ public class ParentOpMode extends LinearOpMode {
                     telemetry.addData("current possision", getLeftVerticalEncoder());
                     telemetry.update();
 
-                    stopDrive();
+
                 }
             }
+            stopDrive();
             }
 
 

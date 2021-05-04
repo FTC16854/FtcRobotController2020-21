@@ -126,33 +126,39 @@ public class visionParentOpMode extends ParentOpMode
     }
     public void fourRings(){
         driveInchesVertical(-45,1);
-        rotateToHeading(.1,90,'r');
-        driveInchesVertical(-12,1);
+        rotateToHeading(.3,-75,'r');
+        rotateToHeading(.1,-90,'r');
+        driveInchesVertical(-6,1);
         autoLiftDown();
         sleep(1000);
         autoClawOpen();
         driveInchesVertical(12,1);
-        driveInchesHorizontal(60,1);
+        driveInchesHorizontal(-35,1);
+        rotateToHeading(.3,-15,'l');
         rotateToHeading(.1,0,'l');
     }
 
     public void oneRings(){
-        driveInchesVertical(-25,1);
+        driveInchesVertical(-17,1);
+        driveInchesHorizontal(-8,1);
         autoLiftDown();
         sleep(1000);
         autoClawOpen();
-        driveInchesVertical(42,1);
+        driveInchesVertical(6,1);
         rotateToHeading(.1,0,'l');
+        rotateToHeading(.1,0,'r');
     }
 
     public void zeroRings(){
-        rotateToHeading(.1,90,'r');
-        driveInchesHorizontal(14,1);
-        driveInchesVertical(18,1);
+        rotateToHeading(.3,-75,'r');
+        rotateToHeading(.1,-90,'r');
+        driveInchesHorizontal(4,1);
+        driveInchesVertical(-10,1);
         autoLiftDown();
         sleep(1000);
         autoClawOpen();
         driveInchesVertical(12,1);
+        rotateToHeading(.3,-15,'l');
         rotateToHeading(.1,0,'l');
     }
 
@@ -162,9 +168,11 @@ public class visionParentOpMode extends ParentOpMode
 
         sleep(1000);
         driveInchesVertical(-55, 1);
-        driveInchesHorizontal(42, 1);
+        driveInchesHorizontal(24, 1);
+        rotateToHeading(.1,0,'r');
+        rotateToHeading(.1,0,'l');
         for (int i = 0; i < 3; i++) {
-            shootAuto(0.45);
+            shootAuto(0.5);
         }
         shooterStop();
 
