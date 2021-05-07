@@ -128,7 +128,7 @@ public class visionParentOpMode extends ParentOpMode
         driveInchesVertical(-45,1);
         rotateToHeading(.3,-75,'r');
         rotateToHeading(.1,-90,'r');
-        driveInchesVertical(-6,1);
+        driveInchesVertical(-1,1);
         autoLiftDown();
         sleep(1000);
         autoClawOpen();
@@ -140,7 +140,7 @@ public class visionParentOpMode extends ParentOpMode
 
     public void oneRings(){
         driveInchesVertical(-17,1);
-        driveInchesHorizontal(-8,1);
+        driveInchesHorizontal(-1,1);
         autoLiftDown();
         sleep(1000);
         autoClawOpen();
@@ -169,10 +169,10 @@ public class visionParentOpMode extends ParentOpMode
         sleep(1000);
         driveInchesVertical(-55, 1);
         driveInchesHorizontal(24, 1);
-        rotateToHeading(.1,0,'r');
         rotateToHeading(.1,0,'l');
+        rotateToHeading(.1,0,'r');
         for (int i = 0; i < 3; i++) {
-            shootAuto(0.5);
+            shootAuto(0.507);
         }
         shooterStop();
 
